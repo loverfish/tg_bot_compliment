@@ -49,7 +49,8 @@ def daily_compliment(update, context):
         time_to_sleep = 3600 - min_now_in_sec()
         # sleep(random.choice(range(time_to_sleep, time_to_sleep + 900)))
         random_time = random.choice(range(time_to_sleep, time_to_sleep + 240))
-        sleep(random_time)
+        # sleep(random_time)
+        sleep(3600)
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry')
 
