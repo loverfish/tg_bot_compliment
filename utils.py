@@ -1,6 +1,8 @@
 import re
+import random
 
 from datetime import datetime as dt
+from time import sleep
 
 
 '''
@@ -41,6 +43,33 @@ def time_now_in_sec():
 def min_now_in_sec():
     time_now = dt.now().time()
     return time_now.minute * 60 + time_now.second
+
+
+def hourly_time_to_sleep():
+    time_to_new_hour = 3600 - min_now_in_sec()
+    return random.choice(range(time_to_new_hour, time_to_new_hour + 600))
+
+
+def daily_time_to_sleep():
+    time_to_new_day = 3600 * 24 - time_now_in_sec()
+    return random.choice(range(time_to_new_day + 3600 * 9, time_to_new_day + 3600 * 11))
+
+
+def interval_compliment(update, context, time_to_sleep):
+    global stop
+    stop = None
+    flexible_list = compliment_list.copy()
+    while flexible_list:
+        if stop:
+            break
+        message = random.choice(flexible_list)
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f'{message}')
+        flexible_list.remove(message)
+        if not flexible_list:
+            flexible_list = compliment_list.copy()
+        sleep(time_to_sleep)
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry')
 
 
 # form_a_txt()
