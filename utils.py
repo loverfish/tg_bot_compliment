@@ -55,7 +55,7 @@ def daily_time_to_sleep():
     return random.choice(range(time_to_new_day + 3600 * 9, time_to_new_day + 3600 * 11))
 
 
-def interval_compliment(update, context, time_to_sleep):
+def interval_compliment(update, context, func):
     global stop
     stop = None
     flexible_list = compliment_list.copy()
@@ -67,6 +67,7 @@ def interval_compliment(update, context, time_to_sleep):
         flexible_list.remove(message)
         if not flexible_list:
             flexible_list = compliment_list.copy()
+        time_to_sleep = func()
         sleep(time_to_sleep)
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text='Sorry')
