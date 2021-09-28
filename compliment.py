@@ -8,7 +8,7 @@ from telegram.ext import Updater, CommandHandler
 from telegram import ReplyKeyboardMarkup
 
 from setup_list import bot_compliment_tg_token
-from utils import compliment_list, hourly_time_to_sleep, daily_time_to_sleep, interval_compliment
+from utils import compliment_list, hourly_time_to_sleep, daily_time_to_sleep, interval_compliment, time_now_in_sec
 
 
 updater = Updater(token=bot_compliment_tg_token)
@@ -44,9 +44,14 @@ def hourly_compliment(update, context):
 def stop_compliment(update, context):
     global stop
     stop = True
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text='Stop daily compliments\n'
-                                  'For correct operation do not run "daily compliment" for 27 hours')
+    access_time_in_sec = 3600 * (24 + 11) - time_now_in_sec()
+    hours = access_time_in_sec // 3600
+    minutes = access_time_in_sec % 3600 / 60
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=f'Stop daily compliments\n'
+             f'For correct operation do not run "daily" for {hours} hours {minutes} minutes'
+    )
 
 
 def daily_compliment_stream(update, context):

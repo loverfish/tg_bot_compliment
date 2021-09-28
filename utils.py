@@ -36,7 +36,6 @@ def form_a_txt():
 
 def time_now_in_sec():
     time_now = dt.now().time()
-    print(time_now)
     return time_now.hour * 3600 + time_now.minute * 60 + time_now.second
 
 
